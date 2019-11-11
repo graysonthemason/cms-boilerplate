@@ -1,0 +1,8 @@
+{
+  "eslint.autoFixOnSave": false,
+  "editor.formatOnSave": true,
+  "editor.insertSpaces": false,
+  "jshint.enable": false,
+  "eslint.packageManager": "yarn",
+  "eslint.alwaysShowStatus": true,
+}

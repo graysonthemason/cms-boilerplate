@@ -1,0 +1,11 @@
+{
+  "folders": [
+	{
+		"path": "/Users/gray/dev/dwell/dwell-cms"
+	}
+],
+  "settings": {
+    "jshint.enable": false,
+    "eslint.alwaysShowStatus": true
+  }
+}

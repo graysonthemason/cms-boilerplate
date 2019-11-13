@@ -473,8 +473,6 @@ class AdminHome extends Component {
         />
         <Resource
           name="UserImage"
-          // icon={RoomIcon}
-          // list={RoomList}
           // list={ListGuesser}
           // edit={EditGuesser}
           // edit={RoomEdit}

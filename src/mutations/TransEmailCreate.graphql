@@ -1,0 +1,5 @@
+mutation TransEmailCreate($name: String!) {
+  createTransEmail(name: $name) {
+    id
+  }
+}

@@ -16,32 +16,39 @@ import withStyles from '@material-ui/core/styles/withStyles';
 import theme from './theme';
 
 // Address queries
-import AddressEditQuery from './queries/AddressEdit';
-import AddressListQuery from './queries/AddressList';
-import AddressManyQuery from './queries/AddressMany';
-import AddressUpdateMutation from './mutations/AddressUpdate';
-import AddressCreateMutation from './mutations/AddressCreate';
-import AddressDeleteMutation from './mutations/AddressDelete';
+import AddressEditQuery from './queries/AddressEdit.graphql';
+import AddressListQuery from './queries/AddressList.graphql';
+import AddressManyQuery from './queries/AddressMany.graphql';
+import AddressUpdateMutation from './mutations/AddressUpdate.graphql';
+import AddressCreateMutation from './mutations/AddressCreate.graphql';
+import AddressDeleteMutation from './mutations/AddressDelete.graphql';
+// Project queries
+import ProjectEditQuery from './queries/ProjectEdit.graphql';
+import ProjectListQuery from './queries/ProjectList.graphql';
+import ProjectManyQuery from './queries/ProjectMany.graphql';
+import ProjectUpdateMutation from './mutations/ProjectUpdate.graphql';
+import ProjectCreateMutation from './mutations/ProjectCreate.graphql';
+import ProjectDeleteMutation from './mutations/ProjectDelete.graphql';
 
 // TransEmail queries
-import TransEmailListQuery from './queries/TransEmailList';
-import TransEmailManyQuery from './queries/TransEmailMany';
-import TransEmailEditQuery from './queries/TransEmailEdit';
-import TransEmailUpdateMutation from './mutations/TransEmailUpdate';
-import TransEmailCreateMutation from './mutations/TransEmailCreate';
-import TransEmailDeleteMutation from './mutations/TransEmailDelete';
+import TransEmailListQuery from './queries/TransEmailList.graphql';
+import TransEmailManyQuery from './queries/TransEmailMany.graphql';
+import TransEmailEditQuery from './queries/TransEmailEdit.graphql';
+import TransEmailUpdateMutation from './mutations/TransEmailUpdate.graphql';
+import TransEmailCreateMutation from './mutations/TransEmailCreate.graphql';
+import TransEmailDeleteMutation from './mutations/TransEmailDelete.graphql';
 
 // User queries
-import UserListQuery from './queries/UserList';
-import UserManyQuery from './queries/UserMany';
-import UserEditQuery from './queries/UserEdit';
-import UserUpdateMutation from './mutations/UserUpdate';
-import UserCreateMutation from './mutations/UserCreate';
-import UserDeleteMutation from './mutations/UserDelete';
+import UserListQuery from './queries/UserList.graphql';
+import UserManyQuery from './queries/UserMany.graphql';
+import UserEditQuery from './queries/UserEdit.graphql';
+import UserUpdateMutation from './mutations/UserUpdate.graphql';
+import UserCreateMutation from './mutations/UserCreate.graphql';
+import UserDeleteMutation from './mutations/UserDelete.graphql';
 
-// Room image queries
-import UserImageCreateMutation from './mutations/UserImageCreate';
-import UserImageDeleteMutation from './mutations/UserImageDelete';
+// User image queries
+import UserImageCreateMutation from './mutations/UserImageCreate.graphql';
+import UserImageDeleteMutation from './mutations/UserImageDelete.graphql';
 
 // import schema from '../schema.json';
 import {
@@ -64,13 +71,11 @@ import { UserIcon, UserList, UserEdit, UserCreate } from './Users';
 
 import { filterInput } from './utils/global';
 
-// @material-ui
-
 const styles = {
   root: {}
 };
 
-const myBuildQuery = introspection => (fetchType, resourceName, params) => {
+const buildQuery = introspection => (fetchType, resourceName, params) => {
   // const builtQuery = buildQuery(introspection)(fetchType, resourceName, params);
   const { data } = params;
   // const resource = introspection.types.find(r => r.name === resourceName);
@@ -143,6 +148,80 @@ const myBuildQuery = introspection => (fetchType, resourceName, params) => {
             },
             parseResponse: response => ({
               data: response.data.deleteAddress
+            })
+          };
+          break;
+        default:
+          console.log('query not set up!', resourceName, fetchType);
+          break;
+      }
+      break;
+    case 'Project':
+      switch (fetchType) {
+        case 'GET_LIST':
+          returnObj = {
+            query: ProjectListQuery,
+            variables: params, // params = { id: ... }
+            parseResponse: response => ({
+              data: response.data.allProjects.rows,
+              total: response.data.allProjects.count
+            })
+          };
+          break;
+        case 'GET_MANY':
+          returnObj = {
+            query: ProjectManyQuery,
+            parseResponse: response => ({
+              data: response.data.allProjects,
+              total: response.data.allProjects.length
+            })
+          };
+          break;
+        case 'GET_ONE':
+          returnObj = {
+            query: ProjectEditQuery,
+            variables: { id: parseInt(params.id, 10) },
+            parseResponse: response => {
+              return {
+                data: response.data.address
+              };
+            }
+          };
+          break;
+        case 'CREATE':
+          input = data;
+          returnObj = {
+            query: ProjectCreateMutation,
+            variables: {
+              input
+            },
+            parseResponse: response => ({
+              data: response.data.createProject
+            })
+          };
+          break;
+        case 'UPDATE':
+          input = filterInput('UpdateProjectInput', data, introspection.types);
+          returnObj = {
+            query: ProjectUpdateMutation,
+            variables: {
+              input
+            },
+            parseResponse: response => {
+              return {
+                data: response.data.updateProject
+              };
+            }
+          };
+          break;
+        case 'DELETE':
+          returnObj = {
+            query: ProjectDeleteMutation,
+            variables: {
+              id: params.id
+            },
+            parseResponse: response => ({
+              data: response.data.deleteProject
             })
           };
           break;
@@ -363,7 +442,7 @@ class AdminHome extends Component {
     buildGraphQLProvider({
       client,
       introspection: introspectionOptions,
-      buildQuery: myBuildQuery
+      buildQuery
     })
       .then(dataProvider => this.setState({ dataProvider, client }))
       .catch(e => {

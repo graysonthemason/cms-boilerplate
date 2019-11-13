@@ -1,6 +1,3 @@
-import gql from 'graphql-tag';
-
-export default gql `
 query UserList($pagination: Pagination, $sort: Sort, $filter: Filter) {
   allUsers: userFeed(pagination: $pagination, sort: $sort, filter: $filter) {
     rows {
@@ -13,12 +10,19 @@ query UserList($pagination: Pagination, $sort: Sort, $filter: Filter) {
       confirmationDt
       demoMode
       suspended
-      primaryImage {id url public_id}
-    images {id url public_id primaryFlg}
-    image_ids
-      
+      primaryImage {
+        id
+        url
+        public_id
+      }
+      images {
+        id
+        url
+        public_id
+        primaryFlg
+      }
+      image_ids
     }
     count
   }
 }
-`;

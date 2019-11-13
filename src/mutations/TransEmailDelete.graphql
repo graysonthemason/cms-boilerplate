@@ -1,0 +1,5 @@
+mutation TransEmailDelete($id: Int!) {
+  deleteTransEmail(id: $id) {
+    id
+  }
+}

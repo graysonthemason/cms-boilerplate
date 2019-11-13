@@ -1,0 +1,12 @@
+mutation UserImageCreate($input: [UserImageInput!]) {
+  createUserImage(input: $input) {
+    id
+    url
+    public_id
+    user {
+      images {
+        id
+      }
+    }
+  }
+}

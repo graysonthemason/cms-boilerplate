@@ -1,0 +1,8 @@
+mutation UserImageDelete($id: Int!, $userId: Int!) {
+  deleteUserImage(id: $id, userId: $userId) {
+    id
+    images {
+      id
+    }
+  }
+}

@@ -1,5 +1,7 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+## BEFORE YOU GET STARTED
+Set the environmental variable REACT_APP_API_PATH to the backend api root url (ex: https://api.yourdomain.com)
 ## Available Scripts
 
 In the project directory, you can run:

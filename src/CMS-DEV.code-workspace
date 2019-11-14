@@ -1,0 +1,11 @@
+{
+  "folders": [
+    {
+      "path": "/Users/gray/dev/energea/energea-cms"
+    }
+  ],
+  "settings": {
+    "jshint.enable": false,
+    "eslint.alwaysShowStatus": true
+  }
+}
